@@ -81,7 +81,7 @@ public class ConnexionForm extends JFrame {
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		login.add(lblLogin);
 		
-		textLogin = new JTextField();
+		textLogin = new JTextField("lvillachane");
 		textLogin.setBounds(106, 0, 96, 21);
 		textLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		login.add(textLogin);
@@ -97,7 +97,7 @@ public class ConnexionForm extends JFrame {
 		lblMdp.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		mdp.add(lblMdp);
 		
-		textMdp = new JPasswordField();
+		textMdp = new JPasswordField("jux7g");
 		textMdp.setBounds(106, 0, 96, 21);
 		textMdp.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		mdp.add(textMdp);

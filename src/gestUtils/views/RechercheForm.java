@@ -203,7 +203,9 @@ public class RechercheForm extends JFrame {
 			btnAjouter = new JButton("Ajouter");
 			btnAjouter.setFont(new Font("Tahoma", Font.BOLD, 12));
 			btnAjouter.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent e) {
+		        	  AjouterForm frame = new AjouterForm();
+		        	  frame.setVisible(true);
 				}
 			});
 		}
