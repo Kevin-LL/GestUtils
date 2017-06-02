@@ -1,6 +1,7 @@
 package gestUtils.views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -23,16 +24,23 @@ import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import java.awt.event.InputMethodListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.PreparedStatement;
 import java.awt.event.InputMethodEvent;
-import java.text.SimpleDateFormat;
+import java.util.Random;
+
 import javax.swing.JComboBox;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AjouterForm extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField tfId;
+	private JLabel tfId;
 	private JTextField tfNom;
 	private JTextField tfPrenom;
 	private JLabel lblLogin;
@@ -49,7 +57,7 @@ public class AjouterForm extends JFrame {
 	 */
 	public AjouterForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 240, 420);
+		setBounds(100, 100, 352, 420);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,9 +77,19 @@ public class AjouterForm extends JFrame {
 		lblInfoId.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Id.add(lblInfoId);
 		
-		tfId = new JTextField();
+		tfId = new JLabel();
+		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < 1; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		String output = sb.toString();
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 999);
+		tfId.setText(output + randomNum);
+		tfId.setHorizontalAlignment(SwingConstants.CENTER);
 		Id.add(tfId);
-		tfId.setColumns(10);
 		
 		
 		
@@ -176,18 +194,38 @@ public class AjouterForm extends JFrame {
 		
 		//Panel Mdp
 		JPanel Mdp = new JPanel();
-		Mdp.setBounds(0, 127, 224, 24);
+		Mdp.setBounds(0, 127, 336, 24);
 		contentPane.add(Mdp);
-		Mdp.setLayout(new GridLayout(0, 2, 0, 0));
+		Mdp.setLayout(null);
 		
 		JLabel lblInfoMdp = new JLabel("Mot de passe :");
+		lblInfoMdp.setBounds(0, 0, 112, 24);
 		lblInfoMdp.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInfoMdp.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Mdp.add(lblInfoMdp);
 		
 		tfMdp = new JTextField();
+		tfMdp.setBounds(112, 0, 112, 24);
 		Mdp.add(tfMdp);
 		tfMdp.setColumns(10);
+		
+		JButton btnGenerer = new JButton("Générer");
+		btnGenerer.setBounds(234, 0, 92, 24);
+		btnGenerer.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnGenerer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
+				StringBuilder sb = new StringBuilder();
+				Random random = new Random();
+				for (int i = 0; i < 5; i++) {
+				    char c = chars[random.nextInt(chars.length)];
+				    sb.append(c);
+				}
+				String output = sb.toString();
+				tfMdp.setText(output);
+			}
+		});
+		Mdp.add(btnGenerer);
 		
 		
 		
@@ -224,6 +262,18 @@ public class AjouterForm extends JFrame {
 		tfCp = new JTextField();
 		Cp.add(tfCp);
 		tfCp.setColumns(10);
+		KeyListener keyListener= new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		      char c = e.getKeyChar();
+		      if (!((c >= '0') && (c <= '9') ||
+		         (c == KeyEvent.VK_BACK_SPACE) ||
+		         (c == KeyEvent.VK_DELETE))) {
+		        getToolkit().beep();
+		        e.consume();
+		      }
+		    }
+		};
+		tfCp.addKeyListener(keyListener);
 		
 		
 		
@@ -259,6 +309,8 @@ public class AjouterForm extends JFrame {
 		
 		dcDateEmbauche = new JDateChooser();
 		dcDateEmbauche.getDateEditor().setEnabled(false);
+	    ((JTextFieldDateEditor)dcDateEmbauche.getDateEditor())
+        .setDisabledTextColor(Color.darkGray);
 		dcDateEmbauche.setDateFormatString("yyyy-MM-dd");
 		DateEmbauche.add(dcDateEmbauche);
 		
@@ -286,7 +338,7 @@ public class AjouterForm extends JFrame {
 		
 		//Panel Options
 		JPanel Options = new JPanel();
-		Options.setBounds(0, 342, 224, 40);
+		Options.setBounds(0, 342, 336, 40);
 		contentPane.add(Options);
 		
 		JButton btnFermer = new JButton("Fermer");
@@ -320,9 +372,10 @@ public class AjouterForm extends JFrame {
 				      UtilisateurDAO unUtilisateurDAO = new UtilisateurDAO();
 				      unUtilisateurDAO.saveUtilisateur(unUtilisateur);
 				      dispose();
+		        	  AjouterForm frame = new AjouterForm();
+		        	  frame.setVisible(true);
 			   }
 		});
 		
 	}
-	
 }
