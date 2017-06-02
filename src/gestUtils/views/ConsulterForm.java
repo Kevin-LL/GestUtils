@@ -50,6 +50,10 @@ public class ConsulterForm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		
+		
+		//Panel Id
 		JPanel Id = new JPanel();
 		Id.setBounds(0, 11, 224, 24);
 		contentPane.add(Id);
@@ -64,6 +68,10 @@ public class ConsulterForm extends JFrame {
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
 		Id.add(lblId);
 		
+		
+		
+		
+		//Panel Nom
 		JPanel Nom = new JPanel();
 		Nom.setBounds(0, 39, 224, 24);
 		contentPane.add(Nom);
@@ -78,6 +86,10 @@ public class ConsulterForm extends JFrame {
 		lblNom.setHorizontalAlignment(SwingConstants.CENTER);
 		Nom.add(lblNom);
 		
+		
+		
+		
+		//Panel Prenom
 		JPanel Prenom = new JPanel();
 		Prenom.setBounds(0, 69, 224, 24);
 		contentPane.add(Prenom);
@@ -92,6 +104,10 @@ public class ConsulterForm extends JFrame {
 		lblPrenom.setHorizontalAlignment(SwingConstants.CENTER);
 		Prenom.add(lblPrenom);
 		
+		
+		
+		
+		//Panel Login
 		JPanel Login = new JPanel();
 		Login.setBounds(0, 98, 224, 24);
 		contentPane.add(Login);
@@ -106,6 +122,10 @@ public class ConsulterForm extends JFrame {
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		Login.add(lblLogin);
 		
+		
+		
+		
+		//Panel Mdp
 		JPanel Mdp = new JPanel();
 		Mdp.setBounds(0, 127, 224, 24);
 		contentPane.add(Mdp);
@@ -120,6 +140,10 @@ public class ConsulterForm extends JFrame {
 		lblMdp.setHorizontalAlignment(SwingConstants.CENTER);
 		Mdp.add(lblMdp);
 		
+		
+		
+		
+		//Panel Adresse
 		JPanel Adresse = new JPanel();
 		Adresse.setBounds(0, 157, 224, 24);
 		contentPane.add(Adresse);
@@ -134,6 +158,10 @@ public class ConsulterForm extends JFrame {
 		lblAdresse.setHorizontalAlignment(SwingConstants.CENTER);
 		Adresse.add(lblAdresse);
 		
+		
+		
+		
+		//Panel Cp
 		JPanel Cp = new JPanel();
 		Cp.setBounds(0, 187, 224, 24);
 		contentPane.add(Cp);
@@ -148,6 +176,10 @@ public class ConsulterForm extends JFrame {
 		lblCp.setHorizontalAlignment(SwingConstants.CENTER);
 		Cp.add(lblCp);
 		
+		
+		
+		
+		//Panel Ville
 		JPanel Ville = new JPanel();
 		Ville.setBounds(0, 217, 224, 24);
 		contentPane.add(Ville);
@@ -162,6 +194,10 @@ public class ConsulterForm extends JFrame {
 		lblVille.setHorizontalAlignment(SwingConstants.CENTER);
 		Ville.add(lblVille);
 		
+		
+		
+		
+		//Panel DateEmbauche
 		JPanel DateEmbauche = new JPanel();
 		DateEmbauche.setBounds(0, 247, 224, 24);
 		contentPane.add(DateEmbauche);
@@ -176,6 +212,10 @@ public class ConsulterForm extends JFrame {
 		lblDateEmbauche.setHorizontalAlignment(SwingConstants.CENTER);
 		DateEmbauche.add(lblDateEmbauche);
 		
+		
+		
+		
+		//Panel TypeProfil
 		JPanel TypeProfil = new JPanel();
 		TypeProfil.setBounds(0, 277, 224, 24);
 		contentPane.add(TypeProfil);
@@ -190,6 +230,10 @@ public class ConsulterForm extends JFrame {
 		lblTypeProfil.setHorizontalAlignment(SwingConstants.CENTER);
 		TypeProfil.add(lblTypeProfil);
 		
+		
+		
+		
+		//Panel Options
 		JPanel Options = new JPanel();
 		Options.setBounds(0, 312, 224, 40);
 		contentPane.add(Options);

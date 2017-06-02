@@ -90,7 +90,7 @@ public class UtilisateurDAO {
 		return lesUtilisateurs;
 	}
 	
-    public boolean Connexion(String login, String mdp) {
+    public boolean connexion(String login, String mdp) {
         boolean ok = false;
 		try {
 			PreparedStatement statement = connect.prepareStatement("SELECT * FROM visiteur WHERE login = ? && mdp = ?");
@@ -104,5 +104,24 @@ public class UtilisateurDAO {
 			e.printStackTrace();
 		}
 		return ok;
+    }
+    
+    public void saveUtilisateur(Utilisateur unUtilisateur) {
+    	try {
+			PreparedStatement statement = connect.prepareStatement("insert into visiteur values(?,?,?,?,?,?,?,?,?,?)");
+			statement.setString(1, unUtilisateur.getId());
+			statement.setString(2, unUtilisateur.getNom());
+			statement.setString(3, unUtilisateur.getPrenom());
+			statement.setString(4, unUtilisateur.getLogin());
+			statement.setString(5, unUtilisateur.getMdp());
+			statement.setString(6, unUtilisateur.getAdresse());
+			statement.setString(7, unUtilisateur.getCp());
+			statement.setString(8, unUtilisateur.getVille());
+			statement.setString(9, unUtilisateur.getDateEmbauche());
+			statement.setString(10, unUtilisateur.getTypeProfil());
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
 }

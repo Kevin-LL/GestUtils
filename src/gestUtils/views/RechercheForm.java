@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,6 +27,8 @@ import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class RechercheForm extends JFrame {
 
@@ -51,6 +54,13 @@ public class RechercheForm extends JFrame {
 	 * Create the frame.
 	 */
 	public RechercheForm(UtilisateurController utilisateurController) {
+		addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent arg0) {
+				getRecherche();
+			}
+			public void windowLostFocus(WindowEvent arg0) {
+			}
+		});
 		this.utilisateurController = utilisateurController ;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -174,13 +184,17 @@ public class RechercheForm extends JFrame {
 			btnConsulter.setFont(new Font("Tahoma", Font.BOLD, 12));
 			btnConsulter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-		        	  String idUtilisateur = new String();
-		        	  idUtilisateur = (String) jtable.getValueAt(jtable.getSelectedRow(), 0);
-		        	  Utilisateur util = getUtilisateur(idUtilisateur);
-		        	  System.out.println(util.getTypeProfil());
-		        	  System.out.println(util.getVille());
-		        	  ConsulterForm frame = new ConsulterForm(util);
-		        	  frame.setVisible(true);
+					  if(jtable.getSelectedRowCount() > 0){
+			        	  String idUtilisateur = new String();
+			        	  idUtilisateur = (String) jtable.getValueAt(jtable.getSelectedRow(), 0);
+			        	  Utilisateur util = getUtilisateur(idUtilisateur);
+			        	  System.out.println(util.getTypeProfil());
+			        	  System.out.println(util.getVille());
+			        	  ConsulterForm frame = new ConsulterForm(util);
+			        	  frame.setVisible(true);
+					  }else{
+						  JOptionPane.showMessageDialog(null, "Vous devez selectionner un utilisateur.");
+					  }
 				}
 			});
 		}

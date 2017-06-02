@@ -10,6 +10,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import gestUtils.controllers.UtilisateurController;
+import gestUtils.metier.Utilisateur;
+import gestUtils.models.dataAccess.UtilisateurDAO;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -20,22 +22,26 @@ import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.InputMethodListener;
+import java.sql.PreparedStatement;
 import java.awt.event.InputMethodEvent;
+import java.text.SimpleDateFormat;
+import javax.swing.JComboBox;
 
 public class AjouterForm extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JLabel lblNewLabel;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField tfId;
+	private JTextField tfNom;
+	private JTextField tfPrenom;
+	private JLabel lblLogin;
+	private JTextField tfMdp;
+	private JTextField tfAdresse;
+	private JTextField tfCp;
+	private JTextField tfVille;
+	private JDateChooser dcDateEmbauche;
+	private JComboBox<String> cbTypeProfil;
 
 
 	/**
@@ -43,12 +49,16 @@ public class AjouterForm extends JFrame {
 	 */
 	public AjouterForm() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 240, 390);
+		setBounds(100, 100, 240, 420);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		
+		
+		//Panel Id
 		JPanel Id = new JPanel();
 		Id.setBounds(0, 11, 224, 24);
 		contentPane.add(Id);
@@ -59,10 +69,14 @@ public class AjouterForm extends JFrame {
 		lblInfoId.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Id.add(lblInfoId);
 		
-		textField = new JTextField();
-		Id.add(textField);
-		textField.setColumns(10);
+		tfId = new JTextField();
+		Id.add(tfId);
+		tfId.setColumns(10);
 		
+		
+		
+		
+		//Panel Nom
 		JPanel Nom = new JPanel();
 		Nom.setBounds(0, 39, 224, 24);
 		contentPane.add(Nom);
@@ -73,10 +87,10 @@ public class AjouterForm extends JFrame {
 		lblInfoNom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Nom.add(lblInfoNom);
 		
-		textField_1 = new JTextField();
-		Nom.add(textField_1);
-		textField_1.setColumns(10);
-		textField_1.getDocument().addDocumentListener(new DocumentListener() {
+		tfNom = new JTextField();
+		Nom.add(tfNom);
+		tfNom.setColumns(10);
+		tfNom.getDocument().addDocumentListener(new DocumentListener() {
 		    @Override
 		    public void insertUpdate(DocumentEvent e) {
 		    	changedUpdate(e);
@@ -89,16 +103,20 @@ public class AjouterForm extends JFrame {
 
 		    @Override
 		    public void changedUpdate(DocumentEvent e) {
-		    	String nom = textField_1.getText();
-		    	String prenom = textField_2.getText();
+		    	String nom = tfNom.getText();
+		    	String prenom = tfPrenom.getText();
 		    	String premiereLettrePrenom = "";
 		    	if (prenom.length() > 0){
 			    	premiereLettrePrenom=prenom.substring(0,1);
 		    	}
-		    	lblNewLabel.setText(premiereLettrePrenom + nom);
+		    	lblLogin.setText(premiereLettrePrenom.replaceAll("\\s+","").toLowerCase() + nom.replaceAll("\\s+","").toLowerCase());
 		    }
 		});
 		
+		
+		
+		
+		//Panel Prenom
 		JPanel Prenom = new JPanel();
 		Prenom.setBounds(0, 69, 224, 24);
 		contentPane.add(Prenom);
@@ -109,10 +127,10 @@ public class AjouterForm extends JFrame {
 		lblInfoPrenom.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Prenom.add(lblInfoPrenom);
 		
-		textField_2 = new JTextField();
-		Prenom.add(textField_2);
-		textField_2.setColumns(10);
-		textField_2.getDocument().addDocumentListener(new DocumentListener() {
+		tfPrenom = new JTextField();
+		Prenom.add(tfPrenom);
+		tfPrenom.setColumns(10);
+		tfPrenom.getDocument().addDocumentListener(new DocumentListener() {
 		    @Override
 		    public void insertUpdate(DocumentEvent e) {
 		    	changedUpdate(e);
@@ -125,16 +143,20 @@ public class AjouterForm extends JFrame {
 
 		    @Override
 		    public void changedUpdate(DocumentEvent e) {
-		    	String nom = textField_1.getText();
-		    	String prenom = textField_2.getText();
+		    	String nom = tfNom.getText();
+		    	String prenom = tfPrenom.getText();
 		    	String premiereLettrePrenom = "";
 		    	if (prenom.length() > 0){
 			    	premiereLettrePrenom=prenom.substring(0,1);
 		    	}
-		    	lblNewLabel.setText(premiereLettrePrenom + nom);
+		    	lblLogin.setText(premiereLettrePrenom.replaceAll("\\s+","").toLowerCase() + nom.replaceAll("\\s+","").toLowerCase());
 		    }
 		});
 		
+		
+		
+		
+		//Panel Login
 		JPanel Login = new JPanel();
 		Login.setBounds(0, 98, 224, 24);
 		contentPane.add(Login);
@@ -145,10 +167,14 @@ public class AjouterForm extends JFrame {
 		lblInfoLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Login.add(lblInfoLogin);
 		
-		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		Login.add(lblNewLabel);
+		lblLogin = new JLabel("");
+		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		Login.add(lblLogin);
 		
+		
+		
+		
+		//Panel Mdp
 		JPanel Mdp = new JPanel();
 		Mdp.setBounds(0, 127, 224, 24);
 		contentPane.add(Mdp);
@@ -159,10 +185,14 @@ public class AjouterForm extends JFrame {
 		lblInfoMdp.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Mdp.add(lblInfoMdp);
 		
-		textField_4 = new JTextField();
-		Mdp.add(textField_4);
-		textField_4.setColumns(10);
+		tfMdp = new JTextField();
+		Mdp.add(tfMdp);
+		tfMdp.setColumns(10);
 		
+		
+		
+		
+		//Panel Adresse
 		JPanel Adresse = new JPanel();
 		Adresse.setBounds(0, 157, 224, 24);
 		contentPane.add(Adresse);
@@ -173,10 +203,14 @@ public class AjouterForm extends JFrame {
 		lblInfoAdresse.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Adresse.add(lblInfoAdresse);
 		
-		textField_5 = new JTextField();
-		Adresse.add(textField_5);
-		textField_5.setColumns(10);
+		tfAdresse = new JTextField();
+		Adresse.add(tfAdresse);
+		tfAdresse.setColumns(10);
 		
+		
+		
+		
+		//Panel Cp
 		JPanel Cp = new JPanel();
 		Cp.setBounds(0, 187, 224, 24);
 		contentPane.add(Cp);
@@ -187,10 +221,14 @@ public class AjouterForm extends JFrame {
 		lblInfoCp.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Cp.add(lblInfoCp);
 		
-		textField_6 = new JTextField();
-		Cp.add(textField_6);
-		textField_6.setColumns(10);
+		tfCp = new JTextField();
+		Cp.add(tfCp);
+		tfCp.setColumns(10);
 		
+		
+		
+		
+		//Panel Ville
 		JPanel Ville = new JPanel();
 		Ville.setBounds(0, 217, 224, 24);
 		contentPane.add(Ville);
@@ -201,10 +239,14 @@ public class AjouterForm extends JFrame {
 		lblInfoVille.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Ville.add(lblInfoVille);
 		
-		textField_7 = new JTextField();
-		Ville.add(textField_7);
-		textField_7.setColumns(10);
+		tfVille = new JTextField();
+		Ville.add(tfVille);
+		tfVille.setColumns(10);
 		
+		
+		
+		
+		//Panel DateEmbauche
 		JPanel DateEmbauche = new JPanel();
 		DateEmbauche.setBounds(0, 247, 224, 24);
 		contentPane.add(DateEmbauche);
@@ -215,10 +257,15 @@ public class AjouterForm extends JFrame {
 		lblInfoDateEmbauche.setFont(new Font("Tahoma", Font.BOLD, 11));
 		DateEmbauche.add(lblInfoDateEmbauche);
 		
-		textField_8 = new JTextField();
-		DateEmbauche.add(textField_8);
-		textField_8.setColumns(10);
+		dcDateEmbauche = new JDateChooser();
+		dcDateEmbauche.getDateEditor().setEnabled(false);
+		dcDateEmbauche.setDateFormatString("yyyy-MM-dd");
+		DateEmbauche.add(dcDateEmbauche);
 		
+		
+		
+		
+		//Panel TypeProfil
 		JPanel TypeProfil = new JPanel();
 		TypeProfil.setBounds(0, 277, 224, 24);
 		contentPane.add(TypeProfil);
@@ -229,12 +276,17 @@ public class AjouterForm extends JFrame {
 		lblInfoTypeProfil.setFont(new Font("Tahoma", Font.BOLD, 11));
 		TypeProfil.add(lblInfoTypeProfil);
 		
-		textField_9 = new JTextField();
-		TypeProfil.add(textField_9);
-		textField_9.setColumns(10);
+		cbTypeProfil = new JComboBox<String>();
+		cbTypeProfil.addItem("v");
+		cbTypeProfil.addItem("c");
+		TypeProfil.add(cbTypeProfil);
 		
+		
+		
+		
+		//Panel Options
 		JPanel Options = new JPanel();
-		Options.setBounds(0, 312, 224, 40);
+		Options.setBounds(0, 342, 224, 40);
 		contentPane.add(Options);
 		
 		JButton btnFermer = new JButton("Fermer");
@@ -246,9 +298,31 @@ public class AjouterForm extends JFrame {
 		});
 		Options.add(btnFermer);
 		
+		
+		
 		JButton btnConfirmer = new JButton("Confirmer");
 		btnConfirmer.setFont(new Font("Tahoma", Font.BOLD, 12));
 		Options.add(btnConfirmer);
+		btnConfirmer.addActionListener(new ActionListener(){
+			   public void actionPerformed(ActionEvent e){
+				      String tfIdValue = tfId.getText();
+				      String tfNomValue = tfNom.getText();
+				      String tfPrenomValue = tfPrenom.getText();
+				      String lblLoginValue = lblLogin.getText();
+				      String tfMdpValue = tfMdp.getText();
+				      String tfAdresseValue = tfAdresse.getText();
+				      String tfCpValue = tfCp.getText();
+				      String tfVilleValue = tfVille.getText();
+				      String dcDateEmbaucheValue = ((JTextField)dcDateEmbauche.getDateEditor().getUiComponent()).getText();
+				      String cbTypeProfilValue = cbTypeProfil.getSelectedItem().toString();
+				      /*System.out.println(tfIdValue + tfNomValue + tfPrenomValue + lblLoginValue + tfMdpValue + tfAdresseValue + tfCpValue + tfVilleValue + tfDateEmbaucheValue + tfTypeProfilValue);*/
+				      Utilisateur unUtilisateur = new Utilisateur(tfIdValue, tfNomValue, tfPrenomValue, lblLoginValue, tfMdpValue, tfAdresseValue, tfCpValue, tfVilleValue, dcDateEmbaucheValue, cbTypeProfilValue);
+				      UtilisateurDAO unUtilisateurDAO = new UtilisateurDAO();
+				      unUtilisateurDAO.saveUtilisateur(unUtilisateur);
+				      dispose();
+			   }
+		});
+		
 	}
 	
 }

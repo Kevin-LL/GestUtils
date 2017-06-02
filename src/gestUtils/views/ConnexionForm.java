@@ -56,6 +56,10 @@ public class ConnexionForm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		
+		
+		//Panel Top
 		JPanel Top = new JPanel();
 		Top.setBounds(5, 5, 224, 28);
 		contentPane.add(Top);
@@ -66,6 +70,10 @@ public class ConnexionForm extends JFrame {
 		lblInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 14));
 		Top.add(lblInfo);
 		
+		
+		
+		
+		//Panel Middle
 		JPanel Middle = new JPanel();
 		Middle.setBounds(5, 33, 224, 91);
 		contentPane.add(Middle);
@@ -110,7 +118,7 @@ public class ConnexionForm extends JFrame {
 		btnConnexion.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnConnexion.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e){
-		    	Connexion();
+		    	connexion();
 			}
 		});
 		btn.add(btnConnexion);
@@ -126,6 +134,10 @@ public class ConnexionForm extends JFrame {
 		});
 		btn.add(btnAnnuler);
 		
+		
+		
+		
+		//Panel Bottom
 		JPanel Bottom = new JPanel();
 		Bottom.setBounds(0, 135, 234, 22);
 		contentPane.add(Bottom);
@@ -137,11 +149,15 @@ public class ConnexionForm extends JFrame {
 		Bottom.add(btnQuitter);
 	}
 	
-	public void Connexion() {
+	
+	
+	
+	//Méthode de connexion
+	public void connexion() {
     	String login = textLogin.getText();
     	String mdp = new String(textMdp.getPassword());
     	UtilisateurDAO unUtilisateur = new UtilisateurDAO();
-    	if(unUtilisateur.Connexion(login, mdp)){
+    	if(unUtilisateur.connexion(login, mdp)){
     		final UtilisateurController utilisateurController = new UtilisateurController();
 			RechercheForm frame = new RechercheForm(utilisateurController);
 			frame.setVisible(true);
@@ -150,6 +166,10 @@ public class ConnexionForm extends JFrame {
     	}
 	}
 	
+	
+	
+	
+	//Méthode pour quitter le programme
 	private class QuitterProg implements ActionListener{
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
