@@ -95,7 +95,7 @@ public class AjouterForm extends JFrame {
 		
 		
 		//Panel Nom
-		DocumentListener checkLabels = new DocumentListener() { //Listener utilisé par les textfield nom et prénom
+		DocumentListener checkTf = new DocumentListener() { //Listener utilisé par les textfield nom et prénom
 		    @Override
 		    public void insertUpdate(DocumentEvent e) {
 		    	changedUpdate(e);
@@ -131,7 +131,7 @@ public class AjouterForm extends JFrame {
 		tfNom = new JTextField();
 		Nom.add(tfNom);
 		tfNom.setColumns(10);
-		tfNom.getDocument().addDocumentListener(checkLabels);
+		tfNom.getDocument().addDocumentListener(checkTf);
 		
 		
 		
@@ -150,7 +150,7 @@ public class AjouterForm extends JFrame {
 		tfPrenom = new JTextField();
 		Prenom.add(tfPrenom);
 		tfPrenom.setColumns(10);
-		tfPrenom.getDocument().addDocumentListener(checkLabels);
+		tfPrenom.getDocument().addDocumentListener(checkTf);
 		
 		
 		
