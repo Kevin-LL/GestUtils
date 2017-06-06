@@ -40,7 +40,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AjouterForm extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel tfId;
+	private JLabel lblId;
 	private JTextField tfNom;
 	private JTextField tfPrenom;
 	private JLabel lblLogin;
@@ -77,7 +77,7 @@ public class AjouterForm extends JFrame {
 		lblInfoId.setFont(new Font("Tahoma", Font.BOLD, 11));
 		Id.add(lblInfoId);
 		
-		tfId = new JLabel();
+		lblId = new JLabel();
 		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
@@ -87,28 +87,15 @@ public class AjouterForm extends JFrame {
 		}
 		String output = sb.toString();
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 999);
-		tfId.setText(output + randomNum);
-		tfId.setHorizontalAlignment(SwingConstants.CENTER);
-		Id.add(tfId);
+		lblId.setText(output + randomNum);
+		lblId.setHorizontalAlignment(SwingConstants.CENTER);
+		Id.add(lblId);
 		
 		
 		
 		
 		//Panel Nom
-		JPanel Nom = new JPanel();
-		Nom.setBounds(0, 39, 224, 24);
-		contentPane.add(Nom);
-		Nom.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		JLabel lblInfoNom = new JLabel("Nom :");
-		lblInfoNom.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoNom.setFont(new Font("Tahoma", Font.BOLD, 11));
-		Nom.add(lblInfoNom);
-		
-		tfNom = new JTextField();
-		Nom.add(tfNom);
-		tfNom.setColumns(10);
-		tfNom.getDocument().addDocumentListener(new DocumentListener() {
+		DocumentListener checkLabels = new DocumentListener() { //Listener utilisé par les textfield nom et prénom
 		    @Override
 		    public void insertUpdate(DocumentEvent e) {
 		    	changedUpdate(e);
@@ -129,7 +116,22 @@ public class AjouterForm extends JFrame {
 		    	}
 		    	lblLogin.setText(premiereLettrePrenom.replaceAll("\\s+","").toLowerCase() + nom.replaceAll("\\s+","").toLowerCase());
 		    }
-		});
+		};
+		
+		JPanel Nom = new JPanel();
+		Nom.setBounds(0, 39, 224, 24);
+		contentPane.add(Nom);
+		Nom.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JLabel lblInfoNom = new JLabel("Nom :");
+		lblInfoNom.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoNom.setFont(new Font("Tahoma", Font.BOLD, 11));
+		Nom.add(lblInfoNom);
+		
+		tfNom = new JTextField();
+		Nom.add(tfNom);
+		tfNom.setColumns(10);
+		tfNom.getDocument().addDocumentListener(checkLabels);
 		
 		
 		
@@ -148,28 +150,7 @@ public class AjouterForm extends JFrame {
 		tfPrenom = new JTextField();
 		Prenom.add(tfPrenom);
 		tfPrenom.setColumns(10);
-		tfPrenom.getDocument().addDocumentListener(new DocumentListener() {
-		    @Override
-		    public void insertUpdate(DocumentEvent e) {
-		    	changedUpdate(e);
-		    }
-
-		    @Override
-		    public void removeUpdate(DocumentEvent e) {
-	            changedUpdate(e);
-		    }
-
-		    @Override
-		    public void changedUpdate(DocumentEvent e) {
-		    	String nom = tfNom.getText();
-		    	String prenom = tfPrenom.getText();
-		    	String premiereLettrePrenom = "";
-		    	if (prenom.length() > 0){
-			    	premiereLettrePrenom=prenom.substring(0,1);
-		    	}
-		    	lblLogin.setText(premiereLettrePrenom.replaceAll("\\s+","").toLowerCase() + nom.replaceAll("\\s+","").toLowerCase());
-		    }
-		});
+		tfPrenom.getDocument().addDocumentListener(checkLabels);
 		
 		
 		
@@ -357,7 +338,7 @@ public class AjouterForm extends JFrame {
 		Options.add(btnConfirmer);
 		btnConfirmer.addActionListener(new ActionListener(){
 			   public void actionPerformed(ActionEvent e){
-				      String tfIdValue = tfId.getText();
+				      String lblIdValue = lblId.getText();
 				      String tfNomValue = tfNom.getText();
 				      String tfPrenomValue = tfPrenom.getText();
 				      String lblLoginValue = lblLogin.getText();
@@ -367,8 +348,7 @@ public class AjouterForm extends JFrame {
 				      String tfVilleValue = tfVille.getText();
 				      String dcDateEmbaucheValue = ((JTextField)dcDateEmbauche.getDateEditor().getUiComponent()).getText();
 				      String cbTypeProfilValue = cbTypeProfil.getSelectedItem().toString();
-				      /*System.out.println(tfIdValue + tfNomValue + tfPrenomValue + lblLoginValue + tfMdpValue + tfAdresseValue + tfCpValue + tfVilleValue + tfDateEmbaucheValue + tfTypeProfilValue);*/
-				      Utilisateur unUtilisateur = new Utilisateur(tfIdValue, tfNomValue, tfPrenomValue, lblLoginValue, tfMdpValue, tfAdresseValue, tfCpValue, tfVilleValue, dcDateEmbaucheValue, cbTypeProfilValue);
+				      Utilisateur unUtilisateur = new Utilisateur(lblIdValue, tfNomValue, tfPrenomValue, lblLoginValue, tfMdpValue, tfAdresseValue, tfCpValue, tfVilleValue, dcDateEmbaucheValue, cbTypeProfilValue);
 				      UtilisateurDAO unUtilisateurDAO = new UtilisateurDAO();
 				      unUtilisateurDAO.saveUtilisateur(unUtilisateur);
 				      dispose();
