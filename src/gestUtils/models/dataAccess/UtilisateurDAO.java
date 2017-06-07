@@ -65,7 +65,7 @@ public class UtilisateurDAO {
 		Utilisateur unUtilisateur = null;
 		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
 		try {
-			PreparedStatement statement = connect.prepareStatement("select * from visiteur where nom like  ?");
+			PreparedStatement statement = connect.prepareStatement("select * from visiteur where nom like ? and statut = 0");
 			statement.setString(1, filtreNom);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
@@ -119,6 +119,16 @@ public class UtilisateurDAO {
 			statement.setString(8, unUtilisateur.getVille());
 			statement.setString(9, unUtilisateur.getDateEmbauche());
 			statement.setString(10, unUtilisateur.getTypeProfil());
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void supprUtilisateur(String idUtilisateur) {
+    	try {
+			PreparedStatement statement = connect.prepareStatement("UPDATE visiteur SET statut = 1 WHERE id = ?");
+			statement.setString(1, idUtilisateur);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

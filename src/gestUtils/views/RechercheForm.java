@@ -49,6 +49,7 @@ public class RechercheForm extends JFrame {
 	private JButton btnModifier;
 	private JButton btnAjouter;
 	private JPanel RechercherProfil;
+	private JButton btnSupprimer;
 
 	/**
 	 * Create the frame.
@@ -175,6 +176,7 @@ public class RechercheForm extends JFrame {
 			Middle.add(getBtnConsulter());
 			Middle.add(getBtnModifier());
 			Middle.add(getBtnAjouter());
+			Middle.add(getBtnSupprimer());
 		}
 		return Middle;
 	}
@@ -225,6 +227,8 @@ public class RechercheForm extends JFrame {
 		}
 		return btnAjouter;
 	}
+	
+	
 	private JPanel getRechercherProfil() {
 		if (RechercherProfil == null) {
 			RechercherProfil = new JPanel();
@@ -237,22 +241,47 @@ public class RechercheForm extends JFrame {
 		return RechercherProfil;
 	}
 	
+	private JButton getBtnSupprimer() {
+		if (btnSupprimer == null) {
+			btnSupprimer = new JButton("Supprimer");
+			btnSupprimer.setFont(new Font("Tahoma", Font.BOLD, 12));
+			btnSupprimer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					  if(jtable.getSelectedRowCount() > 0){
+						  
+						  int dialogResult = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer l'utilisateur selectionné?", "Confirm", JOptionPane.YES_NO_OPTION);
+						  if(dialogResult == JOptionPane.YES_OPTION){
+						
+						  //exécute la requète
+			        	  String idUtilisateur = new String();
+			        	  idUtilisateur = (String) jtable.getValueAt(jtable.getSelectedRow(), 0);
+			        	  Utilisateur util = getUtilisateur(idUtilisateur);
+			        	  System.out.println(util.getId());
+					      UtilisateurDAO unUtilisateurDAO = new UtilisateurDAO();
+					      unUtilisateurDAO.supprUtilisateur(idUtilisateur);
+					      
+					      //met à jour la liste
+					      jtable.repaint();
+					      
+						  } else {
+						  //ne fait rien
+							;
+						  } 
+						  
+					  }else{
+						  JOptionPane.showMessageDialog(null, "Vous devez selectionner un utilisateur.");
+					  }
+				}
+			});
+		}
+		return btnSupprimer;
+	}
+	
 	public Utilisateur getUtilisateur(String id){
 		Utilisateur utilisateur;
 		utilisateur = this.utilisateurController.findById(id);
 		
 		return utilisateur;
 	}
-	/*private void Click() {
-	jtable.addMouseListener(
-      new MouseAdapter(){
-        public void mouseClicked(MouseEvent e){
-          if (e.getClickCount() == 1){
-        	  }
-          }
-        }
-      }
-    );
-	}
-*/
+
 }
