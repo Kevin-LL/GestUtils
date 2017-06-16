@@ -241,6 +241,8 @@ public class RechercheForm extends JFrame {
 		return RechercherProfil;
 	}
 	
+	
+	/*FONCTION SUPPRIMER | EPREUVE E4*/
 	private JButton getBtnSupprimer() {
 		if (btnSupprimer == null) {
 			btnSupprimer = new JButton("Supprimer");
@@ -249,22 +251,24 @@ public class RechercheForm extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					  if(jtable.getSelectedRowCount() > 0){
 						  
-						  int dialogResult = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer l'utilisateur selectionné?", "Confirm", JOptionPane.YES_NO_OPTION);
+						  int dialogResult = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer l'utilisateur selectionné?", "Confirmation de la suppression", JOptionPane.YES_NO_OPTION);
 						  if(dialogResult == JOptionPane.YES_OPTION){
 						
-						  //exécute la requète
+						  //Trouve l'utilisateur
 			        	  String idUtilisateur = new String();
 			        	  idUtilisateur = (String) jtable.getValueAt(jtable.getSelectedRow(), 0);
 			        	  Utilisateur util = getUtilisateur(idUtilisateur);
 			        	  System.out.println(util.getId());
+			        	  
+			        	  //Exécute la requête
 					      UtilisateurDAO unUtilisateurDAO = new UtilisateurDAO();
 					      unUtilisateurDAO.supprUtilisateur(idUtilisateur);
 					      
-					      //met à jour la liste
+					      //Met à jour la liste
 					      jtable.repaint();
 					      
 						  } else {
-						  //ne fait rien
+						  //Ne fait rien
 							;
 						  } 
 						  
